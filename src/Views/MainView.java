@@ -14,7 +14,7 @@ import org.math.plot.Plot2DPanel;
  *
  * @author al3x_hh
  */
-public class MainView extends javax.swing.JFrame {
+public class MainView extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form MainView
@@ -66,16 +66,9 @@ public class MainView extends javax.swing.JFrame {
         precisionTF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTA = new javax.swing.JTextArea();
-        
-        // define your data
-        double[] x = { 1, 2, 3, 4, 5, 6 };
-        double[] y = { 45, 89, 6, 32, 63, 12 };
 
         // define the legend position
         chartP.addLegend("SOUTH");
-
-        // add a line plot to the PlotPanel
-        chartP.addLinePlot("my plot", x, y);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(1200, 800));
@@ -385,4 +378,13 @@ public class MainView extends javax.swing.JFrame {
     private javax.swing.JTextField eliteTF;
     private javax.swing.JTextField precisionTF;
     // End of variables declaration//GEN-END:variables
+	
+    @Override
+	public void updatePlot(double[] meanX, double[] meanY, double[] bestGenerationX, double[] bestGenerationY,
+			double[] bestX, double[] bestY) {
+    	
+        chartP.addLinePlot("Mejor absoluto", bestX, bestY);
+        chartP.addLinePlot("Mejor de la generación", bestGenerationX, bestGenerationY);
+        chartP.addLinePlot("Media de la generación", meanX, meanY);
+	}
 }
