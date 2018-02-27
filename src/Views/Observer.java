@@ -1,7 +1,17 @@
 package Views;
 
+/**
+ * 
+ * @author al3x_hh
+ *
+ */
 public interface Observer {
-	public void updatePlot(double [] meanX, double [] meanY,
-					       double [] bestGenerationX, double [] bestGenerationY,
-						   double [] bestX,double [] bestY);
+	
+	/**
+	 * 
+	 * @param mean
+	 * @param bestGeneration
+	 * @param best
+	 */
+	public void updatePlot(double [] mean, double [] bestGeneration, double [] best);
 }

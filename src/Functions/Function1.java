@@ -1,6 +1,7 @@
 package Functions;
 
 import Models.Chromosome;
+import Models.Utils;
 
 public class Function1 extends Chromosome {
 	
@@ -8,20 +9,14 @@ public class Function1 extends Chromosome {
 	private double maxX;
 	private double precision;
 
-	public Function1(boolean[] gens, double phenotype, 
-					double aptitude, double score, 
-					double aggregateSocore,
-					double minX, double maxX,
-					double precision) {
-		
-		super(gens, aptitude, score, aggregateSocore);
+	public Function1(double minX, double maxX, double precision) {
 		this.minX = minX;
 		this.maxX = maxX;
 		this.precision = precision;
 	}
 	
 	@Override
-	public void initChromosome() {
+	public void init() {
 		int length = this.getLength(minX, maxX, precision);
 		boolean gens [] = new boolean[length];
 		
@@ -33,13 +28,13 @@ public class Function1 extends Chromosome {
 
 	@Override
 	public double test() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 20 + Math.E - 20 * (Math.pow(Math.E, -0.2 * Math.abs(getPhenotype()))) 
+				- Math.pow(Math.E, Math.cos(2 * Math.PI * getPhenotype()));
 	}
 
 	@Override
 	public double getPhenotype() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (minX + (maxX - minX) * Utils.bin2dec(gens)) 
+				/ (Math.pow(2, getLength(minX, maxX, precision)) - 1) ;
 	}
 }

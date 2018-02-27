@@ -380,11 +380,15 @@ public class MainView extends javax.swing.JFrame implements Observer {
     // End of variables declaration//GEN-END:variables
 	
     @Override
-	public void updatePlot(double[] meanX, double[] meanY, double[] bestGenerationX, double[] bestGenerationY,
-			double[] bestX, double[] bestY) {
+	public void updatePlot(double[] mean, double[] bestGeneration, double[] best) {
     	
-        chartP.addLinePlot("Mejor absoluto", bestX, bestY);
-        chartP.addLinePlot("Mejor de la generación", bestGenerationX, bestGenerationY);
-        chartP.addLinePlot("Media de la generación", meanX, meanY);
+    		double[] x = new double[mean.length];
+    		
+    		for(int i = 0; i < mean.length; i++)
+    			x[i] = i + 1;
+    		
+        chartP.addLinePlot("Mejor absoluto", x, best);
+        chartP.addLinePlot("Mejor de la generación", x, bestGeneration);
+        chartP.addLinePlot("Media de la generación", x, mean);
 	}
 }

@@ -16,4 +16,22 @@ public class Utils {
 	public static int log(double x, int base) {
 	    return (int) (Math.log(x) / Math.log(base));
 	}
+	
+	/**
+	 * 
+	 * @param bin
+	 * @return
+	 */
+	public static int bin2dec(boolean []bin) {
+		
+	    double ret  = 0;
+	    
+	    for(int i = 0; i < bin.length; i++) {
+	    	
+	        if(bin[i])
+	         ret = ret + Math.pow(2, bin.length - 1 - i);
+	    }
+	    
+	    return (int) ret;
+	}
 }

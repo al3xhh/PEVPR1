@@ -6,17 +6,10 @@ package Models;
  *
  */
 public abstract class Chromosome {
-	private boolean[] gens;
-	private double aptitude;
-	private double score;
-	private double aggregateSocore;
-	
-	public Chromosome(boolean[] gens, double aptitude, double score, double aggregateSocore) {
-		super();
-		this.aptitude = aptitude;
-		this.score = score;
-		this.aggregateSocore = aggregateSocore;
-	}
+	protected boolean[] gens;
+	protected double aptitude;
+	protected double score;
+	protected double aggregateSocore;
 
 	public boolean[] getGens() {
 		return gens;
@@ -64,7 +57,7 @@ public abstract class Chromosome {
 	/**
 	 * 
 	 */
-	abstract public void initChromosome();
+	abstract public void init();
 	
 	/**
 	 * 
