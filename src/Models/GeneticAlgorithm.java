@@ -35,7 +35,7 @@ public class GeneticAlgorithm {
 	public void run() {
 		population.test();
 		
-		for(int i = 0; i < generationNumber; i++) {
+		for(int i = 0; i < generationNumber - 1; i++) {
 			selectionAlgorithm.selection(population);
 			population.reproduction(cross);
 			population.mutation(mutation);

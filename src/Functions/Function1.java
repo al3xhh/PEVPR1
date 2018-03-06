@@ -28,16 +28,14 @@ public class Function1 extends Chromosome {
 
 	@Override
 	public double test() {
-		this.score = 20 + Math.E - 20 * (Math.pow(Math.E, -0.2 * Math.abs(getPhenotype()))) 
-				- Math.pow(Math.E, Math.cos(2 * Math.PI * getPhenotype()));
+		double x = getPhenotype();
 		
-		return score;
+		return 20 + Math.E - (20 * Math.E * (Math.pow(Math.E, -0.2 * Math.abs(x)))) - Math.pow(Math.E, Math.cos(2 * Math.PI * x));		
 	}
 
 	@Override
 	public double getPhenotype() {
-		return (minX + (maxX - minX) * Utils.bin2dec(gens)) 
-				/ (Math.pow(2, getLength(minX, maxX, precision)) - 1) ;
+		return (minX + (maxX - minX) * (Utils.bin2dec(gens)) / (Math.pow(2, getLength(minX, maxX, precision)) - 1));
 	}
 
 	@Override

@@ -73,7 +73,7 @@ public abstract class Chromosome {
 		}
 		
 		if(mutated)
-			this.test();
+			this.setAptitude(this.test());
 	}
 	
 	/**

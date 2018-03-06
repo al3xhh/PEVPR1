@@ -9,6 +9,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.SwingUtilities;
+
 import org.math.plot.Plot2DPanel;
 
 import Controlers.MainControler;
@@ -216,9 +218,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
 
         problemSelectionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
 
-        chartP.setBorder(javax.swing.BorderFactory.createTitledBorder("Chart"));
+        /*chartP.setBorder(javax.swing.BorderFactory.createTitledBorder("Chart"));
 
-        /*javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,14 +404,19 @@ public class MainView extends javax.swing.JFrame implements Observer {
 	
     @Override
 	public void updatePlot(double[] mean, double[] bestGeneration, double[] best, int generations) {
-    	
+        		
     		double[] x = new double[generations];
     		
     		for(int i = 0; i < generations; i++)
     			x[i] = i + 1;
     		
-        chartP.addLinePlot("Mejor absoluto", x, best);
-        chartP.addLinePlot("Mejor de la generación", x, bestGeneration);
-        chartP.addLinePlot("Media de la generación", x, mean);
+    		SwingUtilities.invokeLater(new Runnable() {
+    		    public void run() {
+    	    			chartP.removeAllPlots();
+    		    		chartP.addLinePlot("Mejor absoluto", x, best);
+    		        chartP.addLinePlot("Mejor de la generación", x, bestGeneration);
+    		        chartP.addLinePlot("Media de la generación", x, mean);
+	        }
+    		});
 	}
 }

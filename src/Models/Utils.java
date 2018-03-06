@@ -29,7 +29,7 @@ public class Utils {
 	    for(int i = 0; i < bin.length; i++) {
 	    	
 	        if(bin[i])
-	         ret = ret + Math.pow(2, bin.length - 1 - i);
+	         ret = ret + Math.pow(2, i);
 	    }
 	    
 	    return (int) ret;

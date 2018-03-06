@@ -80,15 +80,11 @@ public class Population {
 		
 		for(Chromosome chromosome: population) {
 			chromosome.setAptitude(chromosome.test());
+			aggregateAptitude += chromosome.getAptitude();
 			
 			if(chromosome.getAptitude() > bestAptitude) {
 				bestAptitude = chromosome.getAptitude();
 			}
-		}
-		
-		for(Chromosome chromosome: population) {
-			chromosome.setAptitude(bestAptitude - chromosome.getAptitude());
-			aggregateAptitude += chromosome.getAptitude();
 		}
 
 		for(Chromosome chromosome: population) {
@@ -98,7 +94,7 @@ public class Population {
 		}
 		
 		mean[generation] = new Double(aggregateAptitude / popultionSize).doubleValue();
-		bests[generation] = generation == 0 ? bestAptitude : Math.max(bests[generation - 1], bests[generation]);
+		bests[generation] = generation == 0 ? bestAptitude : Math.max(bests[generation - 1], bestAptitude);
 		bestOfGeneration[generation++] = bestAptitude;
 	}
 	
