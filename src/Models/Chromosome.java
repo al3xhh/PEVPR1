@@ -18,6 +18,10 @@ public abstract class Chromosome {
 	public void setGens(boolean[] gens) {
 		this.gens = gens;
 	}
+	
+	public void setGen(boolean gen, int pos) {
+		this.gens[pos] = gen;
+	}
 
 	public double getAptitude() {
 		return aptitude;
@@ -56,6 +60,24 @@ public abstract class Chromosome {
 	
 	/**
 	 * 
+	 * @param mutation
+	 */
+	public void mutation(double mutation) {
+		boolean mutated = false;
+		
+		for(int i = 0; i < gens.length; i++) {
+			if(Math.random() < mutation) {
+				mutated = true;
+				gens[i] = !gens[i];
+			}
+		}
+		
+		if(mutated)
+			this.test();
+	}
+	
+	/**
+	 * 
 	 */
 	abstract public void init();
 	
@@ -70,4 +92,10 @@ public abstract class Chromosome {
 	 * @return
 	 */
 	abstract public double getPhenotype();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	abstract public Chromosome getChild();
 }

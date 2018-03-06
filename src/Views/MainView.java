@@ -6,8 +6,12 @@
 package Views;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import org.math.plot.Plot2DPanel;
+
+import Controlers.MainControler;
 
 
 /**
@@ -16,11 +20,16 @@ import org.math.plot.Plot2DPanel;
  */
 public class MainView extends javax.swing.JFrame implements Observer {
 
+	private MainControler controller;
+	
     /**
      * Creates new form MainView
      */
     public MainView() {
         initComponents();
+        
+        controller = new MainControler();
+        controller.setObserver(this);
     }
 
     /**
@@ -190,6 +199,18 @@ public class MainView extends javax.swing.JFrame implements Observer {
         resetFieldsB.setText("Reset fields");
         
         runB.setText("Run");
+        runB.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				controller.run(Integer.parseInt(populationSizeTF.getText()), Integer.parseInt(generationNumberTF.getText()), 
+						selectionModeCB.getSelectedItem().toString(), 
+						Double.parseDouble(crossoverTF.getText()), 
+						Double.parseDouble(mutationTF.getText()), problemSelectionCB.getSelectedItem().toString(), 
+						Double.parseDouble(eliteTF.getText()),
+						Double.parseDouble(precisionTF.getText()));
+			}
+		});
 
         jLabel9.setText("Problem:");
 
@@ -380,11 +401,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
     // End of variables declaration//GEN-END:variables
 	
     @Override
-	public void updatePlot(double[] mean, double[] bestGeneration, double[] best) {
+	public void updatePlot(double[] mean, double[] bestGeneration, double[] best, int generations) {
     	
-    		double[] x = new double[mean.length];
+    		double[] x = new double[generations];
     		
-    		for(int i = 0; i < mean.length; i++)
+    		for(int i = 0; i < generations; i++)
     			x[i] = i + 1;
     		
         chartP.addLinePlot("Mejor absoluto", x, best);
