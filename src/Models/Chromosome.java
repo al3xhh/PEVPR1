@@ -6,20 +6,24 @@ package Models;
  *
  */
 public abstract class Chromosome {
-	protected boolean[] gens;
+	protected Gen[] gens;
 	protected double aptitude;
 	protected double score;
 	protected double aggregateSocore;
 
-	public boolean[] getGens() {
+	public Gen[] getGens() {
 		return gens;
 	}
 
-	public void setGens(boolean[] gens) {
+	public void setGens(Gen[] gens) {
 		this.gens = gens;
 	}
 	
-	public void setGen(boolean gen, int pos) {
+	public void setGenByAllele(boolean gen, int pos, int allele) {
+		this.gens[pos].setAllele(gen, allele);
+	}
+	
+	public void setGen(Gen gen, int pos) {
 		this.gens[pos] = gen;
 	}
 
@@ -49,6 +53,21 @@ public abstract class Chromosome {
 	
 	/**
 	 * 
+	 * @param index
+	 * @return
+	 */
+	public boolean[] getAlleles(int index) {
+		boolean[] ret = new boolean[gens.length];
+		
+		for(int i = 0; i < gens.length; i++) {
+			ret[i] = gens[i].getAllele(index);
+		}
+		
+		return ret;
+	}
+	
+	/**
+	 * 
 	 * @param minX
 	 * @param maxX
 	 * @return
@@ -68,7 +87,7 @@ public abstract class Chromosome {
 		for(int i = 0; i < gens.length; i++) {
 			if(Math.random() < mutation) {
 				mutated = true;
-				gens[i] = !gens[i];
+				gens[i].mutate();
 			}
 		}
 		
@@ -91,7 +110,7 @@ public abstract class Chromosome {
 	 * 
 	 * @return
 	 */
-	abstract public double getPhenotype();
+	abstract public double getPhenotype(int index);
 	
 	/**
 	 * 

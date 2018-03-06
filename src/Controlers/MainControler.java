@@ -1,6 +1,7 @@
 package Controlers;
 
 import Functions.Function1;
+import Functions.Function2;
 import Models.Chromosome;
 import Models.GeneticAlgorithm;
 import Models.Population;
@@ -30,7 +31,14 @@ public class MainControler {
 				chromosomes[i] = new Function1(0, 32, precision);
 			}
 			
-			population = new Population(populationSize, elitism, chromosomes);
+			population = new Population(populationSize, elitism, chromosomes, "max");
+		} else if(function.equals("2")) {
+			Chromosome chromosomes[] = new Function2[populationSize];
+			for(int i = 0; i < populationSize; i++) {
+				chromosomes[i] = new Function2(-512, 512, precision);
+			}
+			
+			population = new Population(populationSize, elitism, chromosomes, "min");
 		}
 		
 		population.init();

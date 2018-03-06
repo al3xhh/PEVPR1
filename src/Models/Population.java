@@ -11,8 +11,9 @@ public class Population {
 	private double[] mean;
 	private int elitismCount;
 	private int generation;
+	private String type;
 	
-	public Population(int popultionSize, double elitism, Chromosome[] population) {
+	public Population(int popultionSize, double elitism, Chromosome[] population, String type) {
 		super();
 		this.popultionSize = popultionSize;
 		this.population = population;
@@ -22,6 +23,7 @@ public class Population {
 		this.mean = new double[popultionSize];
 		this.elitismCount = 0;
 		this.generation = 0;
+		this.type = type;
 	}
 	
 	/**
@@ -76,13 +78,13 @@ public class Population {
 	public void test() {
 		double aggregateScore = 0;
 		double aggregateAptitude = 0;
-		double bestAptitude = Double.MIN_VALUE;
+		double bestAptitude = type.equals("max") ? Double.MIN_VALUE : Double.MAX_VALUE;
 		
 		for(Chromosome chromosome: population) {
 			chromosome.setAptitude(chromosome.test());
 			aggregateAptitude += chromosome.getAptitude();
 			
-			if(chromosome.getAptitude() > bestAptitude) {
+			if(type.equals("max") ? chromosome.getAptitude() > bestAptitude : chromosome.getAptitude() < bestAptitude) {
 				bestAptitude = chromosome.getAptitude();
 			}
 		}
@@ -94,7 +96,7 @@ public class Population {
 		}
 		
 		mean[generation] = new Double(aggregateAptitude / popultionSize).doubleValue();
-		bests[generation] = generation == 0 ? bestAptitude : Math.max(bests[generation - 1], bestAptitude);
+		bests[generation] = generation == 0 ? bestAptitude : type.equals("max") ? Math.max(bests[generation - 1], bestAptitude) : Math.min(bests[generation - 1], bestAptitude);
 		bestOfGeneration[generation++] = bestAptitude;
 	}
 	
@@ -156,11 +158,11 @@ public class Population {
 		}
 		
 		for(int i = crossPoint; i < parent1.getGens().length; i++) {
-			child2.setGen(parent1.getGens()[i], i);
 			child1.setGen(parent2.getGens()[i], i);
+			child2.setGen(parent1.getGens()[i], i);
 		}
 		
-		child1.test();
-		child2.test();
+		child1.setAptitude(child1.test());
+		child2.setAptitude(child2.test());
 	}
 }

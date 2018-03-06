@@ -4,13 +4,13 @@ import Models.Chromosome;
 import Models.Gen;
 import Models.Utils;
 
-public class Function1 extends Chromosome {
-	
+public class Function2 extends Chromosome {
+
 	private double minX;
 	private double maxX;
 	private double precision;
 
-	public Function1(double minX, double maxX, double precision) {
+	public Function2(double minX, double maxX, double precision) {
 		this.minX = minX;
 		this.maxX = maxX;
 		this.precision = precision;
@@ -22,7 +22,7 @@ public class Function1 extends Chromosome {
 		Gen gens [] = new Gen[length];
 		
 		for(int i = 0; i < length; i ++) {
-			Gen gen = new Gen(1);
+			Gen gen = new Gen(2);
 			gen.init();
 			gens[i] = gen;
 		}
@@ -32,9 +32,10 @@ public class Function1 extends Chromosome {
 
 	@Override
 	public double test() {
-		double x = getPhenotype(0);
+		double x1 = getPhenotype(0);
+		double x2 = getPhenotype(1);
 		
-		return 20 + Math.E - (20 * Math.E * (Math.pow(Math.E, -0.2 * Math.abs(x)))) - Math.pow(Math.E, Math.cos(2 * Math.PI * x));		
+		return -((x2 + 47) * Math.sin(Math.sqrt(Math.abs(x2 + (x1 / 2) + 47)))) - (x1 * Math.sin(Math.sqrt(Math.abs(x1 - (x2 + 47)))));
 	}
 
 	@Override
@@ -44,6 +45,6 @@ public class Function1 extends Chromosome {
 
 	@Override
 	public Chromosome getChild() {
-		return new Function1(minX, maxX, precision);
+		return new Function2(minX, maxX, precision);
 	}
 }

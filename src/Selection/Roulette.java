@@ -1,5 +1,6 @@
 package Selection;
 
+import Models.Chromosome;
 import Models.Population;
 
 /**
@@ -11,6 +12,7 @@ public class Roulette extends SelectionAlgorithm {
 
 	@Override
 	public void selection(Population population) {
+		int []survivors = new int[population.getPopultionSize()];
 		double prob;
 		int survivorPos;
 		
@@ -21,7 +23,11 @@ public class Roulette extends SelectionAlgorithm {
 			while((prob > population.getSingle(survivorPos).getAggregateSocore()) && (survivorPos < population.getPopultionSize() - 1))
 				survivorPos++;
 			
-			population.setSingle(population.getSingle(survivorPos), i);
+			survivors[i] = survivorPos;
 		}		
+		
+		for(int i = 0; i < population.getPopultionSize(); i++) {
+			population.setSingle(population.getSingle(survivors[i]), i);
+		}
 	}
 }
