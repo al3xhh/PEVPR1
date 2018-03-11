@@ -205,12 +205,20 @@ public class MainView extends javax.swing.JFrame implements Observer {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				controller.run(Integer.parseInt(populationSizeTF.getText()), Integer.parseInt(generationNumberTF.getText()), 
+				/*controller.run(Integer.parseInt(populationSizeTF.getText()), Integer.parseInt(generationNumberTF.getText()), 
 						selectionModeCB.getSelectedItem().toString(), 
 						Double.parseDouble(crossoverTF.getText()), 
 						Double.parseDouble(mutationTF.getText()), problemSelectionCB.getSelectedItem().toString(), 
 						Double.parseDouble(eliteTF.getText()),
-						Double.parseDouble(precisionTF.getText()));
+						Double.parseDouble(precisionTF.getText()));*/
+				
+				controller.run(100, 100, 
+						"Roulette", 
+						0.6,
+						0.05,
+						problemSelectionCB.getSelectedItem().toString(),
+						0.0,
+						0.001);
 			}
 		});
 

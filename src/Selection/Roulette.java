@@ -26,8 +26,11 @@ public class Roulette extends SelectionAlgorithm {
 			survivors[i] = survivorPos;
 		}		
 		
+		Chromosome[] populationAux = new Chromosome[population.getPopultionSize()];
 		for(int i = 0; i < population.getPopultionSize(); i++) {
-			population.setSingle(population.getSingle(survivors[i]), i);
+			populationAux[i] = population.getSingle(survivors[i]).clone();
 		}
+		
+		population.setPopulation(populationAux);
 	}
 }

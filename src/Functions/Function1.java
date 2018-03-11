@@ -34,7 +34,7 @@ public class Function1 extends Chromosome {
 	public double test() {
 		double x = getPhenotype(0);
 		
-		return 20 + Math.E - (20 * Math.E * (Math.pow(Math.E, -0.2 * Math.abs(x)))) - Math.pow(Math.E, Math.cos(2 * Math.PI * x));		
+		return 20 + Math.E - (20 * (Math.pow(Math.E, -0.2 * Math.abs(x)))) - Math.pow(Math.E, Math.cos(2 * Math.PI * x));		
 	}
 
 	@Override
@@ -46,4 +46,18 @@ public class Function1 extends Chromosome {
 	public Chromosome getChild() {
 		return new Function1(minX, maxX, precision);
 	}
+
+	@Override
+	public Chromosome clone() {
+		Function1 aux = new Function1(this.minX, this.maxX, this.precision);
+		aux.setGens(this.gens);
+		aux.setAptitude(this.aptitude);
+		aux.setScore(this.score);
+		aux.setAggregateSocore(this.aggregateSocore);
+		aux.setLength(this.length);
+		
+		return aux;
+	}
+	
+	
 }

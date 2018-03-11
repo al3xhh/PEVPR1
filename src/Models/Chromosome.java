@@ -12,6 +12,7 @@ public abstract class Chromosome {
 	protected double aggregateSocore;
 	protected int length;
 
+	
 	public Gen[] getGens() {
 		return gens;
 	}
@@ -100,6 +101,10 @@ public abstract class Chromosome {
 			this.setAptitude(this.test());
 	}
 	
+	public void setLength(int length) {
+		this.length = length;
+	}
+
 	/**
 	 * 
 	 */
@@ -122,4 +127,7 @@ public abstract class Chromosome {
 	 * @return
 	 */
 	abstract public Chromosome getChild();
+
+	abstract public Chromosome clone();
+		
 }

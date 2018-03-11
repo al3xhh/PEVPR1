@@ -71,6 +71,10 @@ public class Population {
 	public double[] getMean() {
 		return mean;
 	}
+	
+	public void setPopulation(Chromosome[] population){
+		this.population = population;
+	}
 
 	/**
 	 * 
@@ -79,23 +83,32 @@ public class Population {
 		double aggregateScore = 0;
 		double aggregateAptitude = 0;
 		double bestAptitude = type.equals("max") ? Double.MIN_VALUE : Double.MAX_VALUE;
+		double maxMin = type.equals("max") ? Double.MAX_VALUE : Double.MIN_VALUE;;
+		
+		for(Chromosome chromosome: population) {			
+			if(type.equals("max") ? chromosome.test() < maxMin : chromosome.test() > maxMin) {
+				maxMin = chromosome.test();// chromosome.getAptitude();
+			}
+			aggregateAptitude += chromosome.test();
+		}
+		
+		mean[generation] = new Double(aggregateAptitude / popultionSize).doubleValue();
+		aggregateAptitude = 0;
 		
 		for(Chromosome chromosome: population) {
-			chromosome.setAptitude(chromosome.test());
-			aggregateAptitude += chromosome.getAptitude();
-			
-			if(type.equals("max") ? chromosome.getAptitude() > bestAptitude : chromosome.getAptitude() < bestAptitude) {
-				bestAptitude = chromosome.getAptitude();
+			chromosome.setAptitude(chromosome.test() + Math.abs(maxMin) + 1.0);
+			if(type.equals("max") ? chromosome.test() > bestAptitude : chromosome.test() < bestAptitude) {
+				bestAptitude = chromosome.test();
 			}
+			aggregateAptitude += chromosome.getAptitude();
 		}
-
+		
 		for(Chromosome chromosome: population) {
 			chromosome.setScore(new Double(chromosome.getAptitude() / aggregateAptitude).doubleValue());
 			chromosome.setAggregateSocore(new Double(chromosome.getScore() + aggregateScore).doubleValue());
 			aggregateScore += chromosome.getScore();
 		}
 		
-		mean[generation] = new Double(aggregateAptitude / popultionSize).doubleValue();
 		bests[generation] = generation == 0 ? bestAptitude : type.equals("max") ? Math.max(bests[generation - 1], bestAptitude) : Math.min(bests[generation - 1], bestAptitude);
 		bestOfGeneration[generation++] = bestAptitude;
 	}
