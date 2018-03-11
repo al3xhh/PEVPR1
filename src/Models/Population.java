@@ -123,7 +123,7 @@ public class Population {
 		
 		if(selectedNum % 2 == 1) selectedNum --;
 		
-		int crossPoint = new Random().nextInt((population[0].getGens().length - 0) + 1) + 0;
+		int crossPoint = new Random().nextInt((population[0].getLength() - 0) + 1) + 0;
 		Chromosome child1, child2;
 		Chromosome parent1, parent2;
 		
@@ -157,7 +157,7 @@ public class Population {
 			child2.setGen(parent2.getGens()[i], i);
 		}
 		
-		for(int i = crossPoint; i < parent1.getGens().length; i++) {
+		for(int i = crossPoint; i < parent1.getLength(); i++) {
 			child1.setGen(parent2.getGens()[i], i);
 			child2.setGen(parent1.getGens()[i], i);
 		}

@@ -18,7 +18,7 @@ public class Function2 extends Chromosome {
 	
 	@Override
 	public void init() {
-		int length = this.getLength(minX, maxX, precision);
+		int length = this.calculateLength(minX, maxX, precision);
 		Gen gens [] = new Gen[length];
 		
 		for(int i = 0; i < length; i ++) {
@@ -40,7 +40,7 @@ public class Function2 extends Chromosome {
 
 	@Override
 	public double getPhenotype(int index) {
-		return (minX + (maxX - minX) * (Utils.bin2dec(this.getAlleles(index))) / (Math.pow(2, getLength(minX, maxX, precision)) - 1));
+		return (minX + (maxX - minX) * (Utils.bin2dec(this.getAlleles(index))) / (Math.pow(2, this.getLength()) - 1));
 	}
 
 	@Override

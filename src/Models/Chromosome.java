@@ -10,6 +10,7 @@ public abstract class Chromosome {
 	protected double aptitude;
 	protected double score;
 	protected double aggregateSocore;
+	protected int length;
 
 	public Gen[] getGens() {
 		return gens;
@@ -51,15 +52,19 @@ public abstract class Chromosome {
 		this.aggregateSocore = aggregateSocore;
 	}
 	
+	public int getLength() {
+		return length;
+	}
+	
 	/**
 	 * 
 	 * @param index
 	 * @return
 	 */
 	public boolean[] getAlleles(int index) {
-		boolean[] ret = new boolean[gens.length];
+		boolean[] ret = new boolean[length];
 		
-		for(int i = 0; i < gens.length; i++) {
+		for(int i = 0; i < length; i++) {
 			ret[i] = gens[i].getAllele(index);
 		}
 		
@@ -72,9 +77,9 @@ public abstract class Chromosome {
 	 * @param maxX
 	 * @return
 	 */
-	public int getLength(double minX, double maxX, double precision) {
-		double x = 1 + ((maxX - minX) / precision);
-		return Utils.log(x, 2);
+	public int calculateLength(double minX, double maxX, double precision) {
+		length = Utils.log(1 + ((maxX - minX) / precision), 2);
+		return length;
 	}
 	
 	/**
@@ -84,7 +89,7 @@ public abstract class Chromosome {
 	public void mutation(double mutation) {
 		boolean mutated = false;
 		
-		for(int i = 0; i < gens.length; i++) {
+		for(int i = 0; i < length; i++) {
 			if(Math.random() < mutation) {
 				mutated = true;
 				gens[i].mutate();
