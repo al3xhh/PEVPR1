@@ -46,7 +46,6 @@ public class MainView extends javax.swing.JFrame implements Observer {
     		this.setTitle("Practise 1");
     		this.setPreferredSize(new Dimension(1200, 580));
     		this.setResizable(false);
-    		this.setLocationRelativeTo(null);
     		
         jLabel1 = new javax.swing.JLabel();
         populationSizeTF = new javax.swing.JTextField();
@@ -205,20 +204,12 @@ public class MainView extends javax.swing.JFrame implements Observer {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				/*controller.run(Integer.parseInt(populationSizeTF.getText()), Integer.parseInt(generationNumberTF.getText()), 
+				controller.run(Integer.parseInt(populationSizeTF.getText()), Integer.parseInt(generationNumberTF.getText()), 
 						selectionModeCB.getSelectedItem().toString(), 
 						Double.parseDouble(crossoverTF.getText()), 
 						Double.parseDouble(mutationTF.getText()), problemSelectionCB.getSelectedItem().toString(), 
 						Double.parseDouble(eliteTF.getText()),
-						Double.parseDouble(precisionTF.getText()));*/
-				
-				controller.run(300, 300, 
-						"Roulette", 
-						0.6,
-						0.05,
-						problemSelectionCB.getSelectedItem().toString(),
-						0.0,
-						0.001);
+						Double.parseDouble(precisionTF.getText()));
 			}
 		});
 

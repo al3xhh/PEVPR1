@@ -13,14 +13,14 @@ public class Population {
 	private int generation;
 	private String type;
 	
-	public Population(int popultionSize, double elitism, Chromosome[] population, String type) {
+	public Population(int popultionSize, int generations, double elitism, Chromosome[] population, String type) {
 		super();
 		this.popultionSize = popultionSize;
 		this.population = population;
 		this.bestChromosomes = new Chromosome[(int) (popultionSize * elitism / 100)];
-		this.bests = new double[popultionSize];
-		this.bestOfGeneration = new double[popultionSize];;
-		this.mean = new double[popultionSize];
+		this.bests = new double[generations];
+		this.bestOfGeneration = new double[generations];;
+		this.mean = new double[generations];
 		this.elitismCount = 0;
 		this.generation = 0;
 		this.type = type;
