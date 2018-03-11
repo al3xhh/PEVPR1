@@ -1,128 +1,163 @@
 package Models;
 
 /**
+ * Abstract class which represents a chromosome.
  * 
- * @author al3x_hh
+ * @author Group 06.
  *
  */
 public abstract class Chromosome {
-	protected boolean[][] gens;
-	protected double aptitude;
-	protected double score;
-	protected double aggregateSocore;
-	protected int[] length;
-
-	public double getAptitude() {
-		return aptitude;
-	}
-
-	public void setAptitude(double aptitude) {
-		this.aptitude = aptitude;
-	}
-
-	public double getScore() {
-		return score;
-	}
-
-	public void setScore(double score) {
-		this.score = score;
-	}
-
-	public double getAggregateSocore() {
-		return aggregateSocore;
-	}
-
-	public void setAggregateSocore(double aggregateSocore) {
-		this.aggregateSocore = aggregateSocore;
-	}
-	
-	public int getLength(int i) {
-		return length[i];
-	}
 	
 	/**
-	 * 
-	 * @param index
-	 * @return
+	 * Boolean matrix, in each position it has an array with alleles.
 	 */
-	public boolean[] getAlleles(int index) {
-		
-		return gens[index];
+	protected boolean[][] _gens;
+	
+	/**
+	 *  Integer array with the length of each alleles array.
+	 */
+	protected int[] _length;
+	
+	/**
+	 * Chromosome aptitude.
+	 */
+	protected double _aptitude;
+	
+	/**
+	 * Chromosome score.
+	 */
+	protected double _score;
+	
+	/**
+	 * Chromosome aggregate score.
+	 */
+	protected double _aggregateSocore;
+	
+	/**
+	 * Initialize chromosome with random values.
+	 */
+	public void init() {
+		for (int j = 0; j < _length.length; j++){
+			for(int i = 0; i < _length[j]; i ++) {
+				_gens[j][i] = Math.random() < 0.5 ? false : true;
+			}
+		}
 	}
 	
 	/**
+	 * Calculate the chromosome length.
 	 * 
-	 * @param minX
-	 * @param maxX
-	 * @return
+	 * @param minX minimum x value.
+	 * @param maxX maximum x value.
+	 * @return chromosome length.
 	 */
 	public int calculateLength(double minX, double maxX, double precision) {
 		return Utils.log(1 + ((maxX - minX) / precision), 2);
 	}
-	
-	public boolean[][] getGens() {
-		return gens;
-	}
-
-	public void setGens(boolean[][] gens) {
-		this.gens = gens;
-	}
-
-	public int[] getLength() {
-		return length;
-	}
-
-	public void setLength(int[] length) {
-		this.length = length;
-	}
 
 	/**
+	 * Mutate the chromosome.
 	 * 
-	 * @param mutation
+	 * @param mutation mutation %.
 	 */
 	public void mutation(double mutation) {
 		boolean mutated = false;
 		
-		for(int j = 0; j < length.length; j++){
-			for(int i = 0; i < length[j]; i++) {
+		for(int j = 0; j < _length.length; j++){
+			for(int i = 0; i < _length[j]; i++) {
 				if(Math.random() < mutation) {
 					mutated = true;
-					gens[j][i] = !gens[j][i];
+					_gens[j][i] = !_gens[j][i];
 				}
 			}
 		
 		if(mutated)
-			this.setAptitude(this.test());
+			setAptitude(test());
 		}
 	}
-
-	/**
-	 * 
-	 */
-	abstract public void init();
+	
+	//ABSTRACT FUNCTIONS//
 	
 	/**
+	 * Test the chromosome to calculate the aptitude.
 	 * 
-	 * @return
+	 * @return chromosome aptitude.
 	 */
 	abstract public double test();
 	
 	/**
+	 * Calculate the phenotype.
 	 * 
-	 * @return
+	 * @param index allele number.
+	 * @return chromosome phenotype.
 	 */
 	abstract public double getPhenotype(int index);
 	
 	/**
+	 * Create new child of each chromosome type.
 	 * 
-	 * @return
+	 * @return new chromosome.
 	 */
 	abstract public Chromosome getChild();
 
+	/**
+	 * Clone the chromosome.
+	 */
 	abstract public Chromosome clone();
+	
+	/** 
+	 * @return string with the phenotype point.
+	 */
+	abstract public String getPoint();
 
-	public void setGen(int gen, int i, boolean b) {
-		this.gens[gen][i] = b;
+	
+	//GETTERS//
+	public boolean[][] getGens() {
+		return _gens;
 	}
-		
+	
+	public int getLength(int i) {
+		return _length[i];
+	}
+	
+	public int[] getLength() {
+		return _length;
+	}
+	
+	public double getAptitude() {
+		return _aptitude;
+	}
+	
+	public double getScore() {
+		return _score;
+	}
+	
+	public double getAggregateSocore() {
+		return _aggregateSocore;
+	}
+	
+	//SETTERS//
+	public void setGen(int gen, int i, boolean b) {
+		_gens[gen][i] = b;
+	}
+
+	public void setGens(boolean[][] gens) {
+		_gens = gens;
+	}
+
+	public void setLength(int[] length) {
+		_length = length;
+	}
+
+	public void setAptitude(double aptitude) {
+		_aptitude = aptitude;
+	}
+
+	public void setScore(double score) {
+		_score = score;
+	}
+
+	public void setAggregateSocore(double aggregateSocore) {
+		_aggregateSocore = aggregateSocore;
+	}
 }

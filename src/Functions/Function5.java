@@ -3,67 +3,93 @@ package Functions;
 import Models.Chromosome;
 import Models.Utils;
 
+/**
+ * Class which represents function 5.
+ * 
+ * @author Group 06.
+ *
+ */
 public class Function5 extends Chromosome {
 
-	private double minX;
-	private double maxX;
-	private double precision;
-	private int n;
-
-	public Function5(double minX, double maxX, double precision, int n) {
-		this.n = n;
-		this.minX = minX;
-		this.maxX = maxX;
-		this.precision = precision;
-		this.length = new int[n];
-		length[0] = this.calculateLength(minX, maxX, precision);
-		for (int i = 1; i < n; i++)
-			length[i] = length[0];
-		
-		this.gens = new boolean[n][length[0]];
-	}
+	/**
+	 * Minimum x value.
+	 */
+	private double _minX;
 	
-	@Override
-	public void init() {
+	/**
+	 * Maximum x value.
+	 */
+	private double _maxX;
+	
+	/**
+	 * Precision % to take numbers.
+	 */
+	private double _precision;
+	
+	/**
+	 * Sum iterations.
+	 */
+	private int _n;
+
+	/**
+	 * Constructor.
+	 */
+	public Function5(double minX, double maxX, double precision, int n) {
+		_minX = minX;
+		_maxX = maxX;
+		_precision = precision;
+		_n = n;
+		_length = new int[_n];
 		
-		for (int j = 0; j < this.length.length; j++){
-			for(int i = 0; i < this.length[j]; i ++) {
-				this.gens[j][i] = Math.random() < 0.5 ? false : true;
-			}
-		}
+		for (int i = 0; i < _n; i++)
+			_length[i] = calculateLength(minX, maxX, precision);
+		
+		_gens = new boolean[_n][calculateLength(minX, maxX, precision)];
 	}
 
 	@Override
 	public double test() {
-		double aux = 0.0;
+		double ret = 0.0;
+		double xi = 0.0;
 		
-		for (int i = 1; i < this.n + 1; i++){
-			double xi = getPhenotype(i - 1);
-			aux += Math.sin(xi) * Math.pow(Math.sin(((i + 1) * Math.pow(xi, 2))/Math.PI), 20);
+		for (int i = 1; i < _n + 1; i++){
+			xi = getPhenotype(i - 1);
+			ret += Math.sin(xi) * Math.pow(Math.sin(((i + 1) * Math.pow(xi, 2)) / Math.PI), 20);
 		}
 		
-		return -aux;
+		return -ret;
 	}
 
 	@Override
 	public double getPhenotype(int index) {
-		return (minX + (maxX - minX) * (Utils.bin2dec(this.gens[index])) / (Math.pow(2, this.getLength()[index]) - 1));
+		return (_minX + (_maxX - _minX) * (Utils.bin2dec(_gens[index])) / (Math.pow(2, getLength(index)) - 1));
 	}
 
 	@Override
 	public Chromosome getChild() {
-		return new Function5(minX, maxX, precision, this.n);
+		return new Function5(_minX, _maxX, _precision, this._n);
 	}
 	
 	@Override
 	public Chromosome clone() {
-		Function5 aux = new Function5(this.minX, this.maxX, this.precision, this.n);
-		aux.setGens(this.gens);
-		aux.setAptitude(this.aptitude);
-		aux.setScore(this.score);
-		aux.setAggregateSocore(this.aggregateSocore);
-		aux.setLength(this.length);
+		Function5 ret = new Function5(_minX, _maxX, _precision, _n);
 		
-		return aux;
+		ret.setGens(_gens);
+		ret.setAptitude(_aptitude);
+		ret.setScore(_score);
+		ret.setAggregateSocore(_aggregateSocore);
+		ret.setLength(_length);
+		
+		return ret;
+	}
+	
+	@Override
+	public String getPoint() {
+		String ret = "";
+		
+		for (int i = 1; i < _n + 1; i++)
+			ret += getPhenotype(i - 1);
+		
+		return ret;
 	}
 }

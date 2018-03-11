@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import org.math.plot.Plot2DPanel;
 
 import Controlers.MainControler;
+import Models.Chromosome;
 
 
 /**
@@ -215,8 +216,8 @@ public class MainView extends javax.swing.JFrame implements Observer {
 						mutationTF.getText().equals("") || eliteTF.getText().equals("") || precisionTF.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "You must introduce all the paramaters", "Error", JOptionPane.ERROR_MESSAGE);
 				} else {
-					if((problemSelectionCB.getSelectedItem().toString().equals("5") && nTF.getText().equals("")) ||
-							(Integer.parseInt(nTF.getText()) > 7 || Integer.parseInt(nTF.getText()) < 0)) {
+					if(problemSelectionCB.getSelectedItem().toString().equals("5") && (nTF.getText().equals("") ||
+							Integer.parseInt(nTF.getText()) > 7 || Integer.parseInt(nTF.getText()) < 0)) {
 						JOptionPane.showMessageDialog(null, "You must introduce N (0 - 7) parameter", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
 						try {
@@ -448,7 +449,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     // End of variables declaration//GEN-END:variables
 	
     @Override
-	public void updatePlot(double[] mean, double[] bestGeneration, double[] best, int generations) {
+	public void updatePlot(double[] mean, double[] bestGeneration, double[] best, int generations, Chromosome bestChromosome) {
         		
     		double[] x = new double[generations];
     		
@@ -457,10 +458,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
     		
     		SwingUtilities.invokeLater(new Runnable() {
     		    public void run() {
+    		    		resultsTA.append("The best result is: " + String.valueOf(best[best.length - 1]) + " in " + bestChromosome.getPoint() + "\n");
     	    			chartP.removeAllPlots();
-    		    		chartP.addLinePlot("Mejor absoluto", x, best);
-    		        chartP.addLinePlot("Mejor de la generación", x, bestGeneration);
-    		        chartP.addLinePlot("Media de la generación", x, mean);
+    		    		chartP.addLinePlot("Absolute best", x, best);
+    		        chartP.addLinePlot("Generation best", x, bestGeneration);
+    		        chartP.addLinePlot("Generation mean", x, mean);
 	        }
     		});
 	}

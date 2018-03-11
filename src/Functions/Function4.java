@@ -3,30 +3,40 @@ package Functions;
 import Models.Chromosome;
 import Models.Utils;
 
+/**
+ * Class which represents function 4.
+ * 
+ * @author Group 06.
+ *
+ */
 public class Function4 extends Chromosome {
 
-	private double minX;
-	private double maxX;
-	private double precision;
-
-	public Function4(double minX, double maxX, double precision) {
-		this.minX = minX;
-		this.maxX = maxX;
-		this.precision = precision;
-		this.length = new int[2];
-		length[0] = this.calculateLength(minX, maxX, precision);
-		length[1] = length[0];
-		this.gens = new boolean[2][length[0]];
-	}
+	/**
+	 * Minimum x value.
+	 */
+	private double _minX;
 	
-	@Override
-	public void init() {
-		
-		for (int j = 0; j < this.length.length; j++){
-			for(int i = 0; i < this.length[j]; i ++) {
-				this.gens[j][i] = Math.random() < 0.5 ? false : true;
-			}
-		}
+	/**
+	 * Maximum x value.
+	 */
+	private double _maxX;
+	
+	/**
+	 * Precision % to take numbers.
+	 */
+	private double _precision;
+
+	/**
+	 * Constructor.
+	 */
+	public Function4(double minX, double maxX, double precision) {
+		_minX = minX;
+		_maxX = maxX;
+		_precision = precision;
+		_length = new int[2];
+		_length[0] = calculateLength(minX, maxX, precision);
+		_length[1] = calculateLength(minX, maxX, precision);
+		_gens = new boolean[2][calculateLength(minX, maxX, precision)];
 	}
 
 	@Override
@@ -36,36 +46,40 @@ public class Function4 extends Chromosome {
 		double aux1 = 0.0;
 		double aux2 = 0.0;
 		
-		for (int i = 1; i < 6; i++){
+		for (int i = 1; i < 6; i++)
 			aux1 += i * Math.cos((i+1) * x1 + i);
-		}
 		
-		for (int i = 1; i < 6; i++){
+		for (int i = 1; i < 6; i++)
 			aux2 += i * Math.cos((i+1) * x2 + i);
-		}
 		
 		return aux1 * aux2;
 	}
 
 	@Override
 	public double getPhenotype(int index) {
-		return (minX + (maxX - minX) * (Utils.bin2dec(this.gens[index])) / (Math.pow(2, this.getLength()[index]) - 1));
+		return (_minX + (_maxX - _minX) * (Utils.bin2dec(_gens[index])) / (Math.pow(2, getLength(index)) - 1));
 	}
 
 	@Override
 	public Chromosome getChild() {
-		return new Function4(minX, maxX, precision);
+		return new Function4(_minX, _maxX, _precision);
 	}
 	
 	@Override
 	public Chromosome clone() {
-		Function4 aux = new Function4(this.minX, this.maxX, this.precision);
-		aux.setGens(this.gens);
-		aux.setAptitude(this.aptitude);
-		aux.setScore(this.score);
-		aux.setAggregateSocore(this.aggregateSocore);
-		aux.setLength(this.length);
+		Function4 ret = new Function4(_minX, _maxX, _precision);
 		
-		return aux;
+		ret.setGens(_gens);
+		ret.setAptitude(_aptitude);
+		ret.setScore(_score);
+		ret.setAggregateSocore(_aggregateSocore);
+		ret.setLength(_length);
+		
+		return ret;
+	}
+	
+	@Override
+	public String getPoint() {
+		return "x1 = " + getPhenotype(0) + ", x2 = " + getPhenotype(1);
 	}
 }

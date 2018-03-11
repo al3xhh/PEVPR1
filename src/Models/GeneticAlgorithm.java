@@ -3,49 +3,84 @@ package Models;
 import Selection.SelectionAlgorithm;
 import Views.Observer;
 
+/**
+ * Class which represents the genetic algorithm.
+ * 
+ * @author Group 06.
+ *
+ */
 public class GeneticAlgorithm {
-	private int generationNumber;
-	private Population population;
-	private SelectionAlgorithm selectionAlgorithm;
-	private Observer observer;
-	private double cross;
-	private double mutation;
 	
+	/**
+	 * Number of generations to iterate.
+	 */
+	private int _generationNumber;
+	
+	/**
+	 * Population to use.
+	 */
+	private Population _population;
+	
+	/**
+	 * Selection algorithm type.
+	 */
+	private SelectionAlgorithm _selectionAlgorithm;
+	
+	/**
+	 * Main view's observer.
+	 */
+	private Observer _observer;
+	
+	/**
+	 * Cross %.
+	 */
+	private double _cross;
+	
+	/**
+	 * Mutation %.
+	 */
+	private double _mutation;
+
+	/**
+	 * Run the genetic algorithm.
+	 */
+	public void run() {
+		_population.test();
+		
+		for(int i = 0; i < _generationNumber - 1; i++) {
+			_selectionAlgorithm.selection(_population);
+			_population.reproduction(_cross);
+			_population.mutation(_mutation);
+			_population.test();
+		}
+		
+		_observer.updatePlot(_population.getMean(), _population.getBestOfGeneration(), _population.getBests(), 
+				_generationNumber, _population.getBestChromosome());
+	}
+	
+	//SETTERS//
+
+	public void setObserver(Observer observer) {
+		_observer = observer;
+	}
+		
 	public void setGenerationNumber(int generationNumber) {
-		this.generationNumber = generationNumber;
+		_generationNumber = generationNumber;
 	}
 
 	public void setPopulation(Population population) {
-		this.population = population;
+		_population = population;
 	}
 
 	public void setSelectionAlgorithm(SelectionAlgorithm selectionAlgorithm) {
-		this.selectionAlgorithm = selectionAlgorithm;
+		_selectionAlgorithm = selectionAlgorithm;
 	}
 
 	public void setCross(double cross) {
-		this.cross = cross;
+		_cross = cross;
 	}
 
 	public void setMutation(double mutation) {
-		this.mutation = mutation;
-	}
-
-
-	public void run() {
-		population.test();
-		
-		for(int i = 0; i < generationNumber - 1; i++) {
-			selectionAlgorithm.selection(population);
-			population.reproduction(cross);
-			population.mutation(mutation);
-			population.test();
-		}
-		
-		observer.updatePlot(population.getMean(), population.getBestOfGeneration(), population.getBests(), generationNumber);
-	}
-	
-	public void setObserver(Observer observer) {
-		this.observer = observer;
+		_mutation = mutation;
 	}
 }

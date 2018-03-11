@@ -3,28 +3,39 @@ package Functions;
 import Models.Chromosome;
 import Models.Utils;
 
+/**
+ * Class which represents function 1.
+ * 
+ * @author Group 06.
+ *
+ */
 public class Function1 extends Chromosome {
 	
-	private double minX;
-	private double maxX;
-	private double precision;
-
-	public Function1(double minX, double maxX, double precision) {
-		this.minX = minX;
-		this.maxX = maxX;
-		this.precision = precision;
-		this.length = new int[1];
-		length[0] = this.calculateLength(minX, maxX, precision);
-		this.gens = new boolean[1][length[0]];
-	}
+	/**
+	 * Minimum x value.
+	 */
+	private double _minX;
 	
-	@Override
-	public void init() {
+	/**
+	 * Maximum x value.
+	 */
+	private double _maxX;
+	
+	/**
+	 * Precision % to take numbers.
+	 */
+	private double _precision;
 
-		for(int i = 0; i < length[0]; i ++) {
-			this.gens[0][i] = Math.random() < 0.5 ? false : true;
-		}
-			
+	/**
+	 * Constructor.
+	 */
+	public Function1(double minX, double maxX, double precision) {
+		_minX = minX;
+		_maxX = maxX;
+		_precision = precision;
+		_length = new int[1];
+		_length[0] = calculateLength(minX, maxX, precision);
+		_gens = new boolean[1][calculateLength(minX, maxX, precision)];
 	}
 
 	@Override
@@ -36,25 +47,29 @@ public class Function1 extends Chromosome {
 
 	@Override
 	public double getPhenotype(int index) {
-		return (minX + (maxX - minX) * (Utils.bin2dec(this.getAlleles(index))) / (Math.pow(2, this.getLength()[0]) - 1));
+		return (_minX + (_maxX - _minX) * (Utils.bin2dec(_gens[index])) / (Math.pow(2, getLength(index)) - 1));
 	}
 
 	@Override
 	public Chromosome getChild() {
-		return new Function1(minX, maxX, precision);
+		return new Function1(_minX, _maxX, _precision);
 	}
 
 	@Override
 	public Chromosome clone() {
-		Function1 aux = new Function1(this.minX, this.maxX, this.precision);
-		aux.setGens(this.gens);
-		aux.setAptitude(this.aptitude);
-		aux.setScore(this.score);
-		aux.setAggregateSocore(this.aggregateSocore);
-		aux.setLength(this.length);
+		Function1 ret = new Function1(_minX, _maxX, _precision);
 		
-		return aux;
+		ret.setGens(_gens);
+		ret.setAptitude(_aptitude);
+		ret.setScore(_score);
+		ret.setAggregateSocore(_aggregateSocore);
+		ret.setLength(_length);
+		
+		return ret;
 	}
-	
-	
+
+	@Override
+	public String getPoint() {
+		return "x = " + getPhenotype(0);
+	}
 }
