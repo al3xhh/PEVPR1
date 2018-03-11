@@ -25,7 +25,7 @@ public class MainControler {
 	}
 	
 	public void run(int populationSize, int generationNumber, String selection, double cross, double mutation, 
-			String function, double elitism, double precision) {
+			String function, double elitism, double precision, int n) {
 		Population population = null;
 		SelectionAlgorithm selectionAlgorithm = SelectionFactory.getSelectionAlgorithm(selection, 0);
 		
@@ -60,7 +60,7 @@ public class MainControler {
 		} else if(function.equals("5")) {
 			Chromosome chromosomes[] = new Function5[populationSize];
 			for(int i = 0; i < populationSize; i++) {
-				chromosomes[i] = new Function5(0, Math.PI, precision, 7);
+				chromosomes[i] = new Function5(0, Math.PI, precision, n);
 			}
 			
 			population = new Population(populationSize, generationNumber, elitism, chromosomes, "min");
