@@ -212,7 +212,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
 						Double.parseDouble(eliteTF.getText()),
 						Double.parseDouble(precisionTF.getText()));*/
 				
-				controller.run(100, 100, 
+				controller.run(300, 300, 
 						"Roulette", 
 						0.6,
 						0.05,

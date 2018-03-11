@@ -6,28 +6,11 @@ package Models;
  *
  */
 public abstract class Chromosome {
-	protected Gen[] gens;
+	protected boolean[][] gens;
 	protected double aptitude;
 	protected double score;
 	protected double aggregateSocore;
-	protected int length;
-
-	
-	public Gen[] getGens() {
-		return gens;
-	}
-
-	public void setGens(Gen[] gens) {
-		this.gens = gens;
-	}
-	
-	public void setGenByAllele(boolean gen, int pos, int allele) {
-		this.gens[pos].setAllele(gen, allele);
-	}
-	
-	public void setGen(Gen gen, int pos) {
-		this.gens[pos] = gen;
-	}
+	protected int[] length;
 
 	public double getAptitude() {
 		return aptitude;
@@ -53,8 +36,8 @@ public abstract class Chromosome {
 		this.aggregateSocore = aggregateSocore;
 	}
 	
-	public int getLength() {
-		return length;
+	public int getLength(int i) {
+		return length[i];
 	}
 	
 	/**
@@ -63,13 +46,8 @@ public abstract class Chromosome {
 	 * @return
 	 */
 	public boolean[] getAlleles(int index) {
-		boolean[] ret = new boolean[length];
 		
-		for(int i = 0; i < length; i++) {
-			ret[i] = gens[i].getAllele(index);
-		}
-		
-		return ret;
+		return gens[index];
 	}
 	
 	/**
@@ -79,10 +57,25 @@ public abstract class Chromosome {
 	 * @return
 	 */
 	public int calculateLength(double minX, double maxX, double precision) {
-		length = Utils.log(1 + ((maxX - minX) / precision), 2);
-		return length;
+		return Utils.log(1 + ((maxX - minX) / precision), 2);
 	}
 	
+	public boolean[][] getGens() {
+		return gens;
+	}
+
+	public void setGens(boolean[][] gens) {
+		this.gens = gens;
+	}
+
+	public int[] getLength() {
+		return length;
+	}
+
+	public void setLength(int[] length) {
+		this.length = length;
+	}
+
 	/**
 	 * 
 	 * @param mutation
@@ -90,19 +83,17 @@ public abstract class Chromosome {
 	public void mutation(double mutation) {
 		boolean mutated = false;
 		
-		for(int i = 0; i < length; i++) {
-			if(Math.random() < mutation) {
-				mutated = true;
-				gens[i].mutate();
+		for(int j = 0; j < length.length; j++){
+			for(int i = 0; i < length[j]; i++) {
+				if(Math.random() < mutation) {
+					mutated = true;
+					gens[j][i] = !gens[j][i];
+				}
 			}
-		}
 		
 		if(mutated)
 			this.setAptitude(this.test());
-	}
-	
-	public void setLength(int length) {
-		this.length = length;
+		}
 	}
 
 	/**
@@ -129,5 +120,9 @@ public abstract class Chromosome {
 	abstract public Chromosome getChild();
 
 	abstract public Chromosome clone();
+
+	public void setGen(int gen, int i, boolean b) {
+		this.gens[gen][i] = b;
+	}
 		
 }

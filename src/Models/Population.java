@@ -83,7 +83,7 @@ public class Population {
 		double aggregateScore = 0;
 		double aggregateAptitude = 0;
 		double bestAptitude = type.equals("max") ? Double.MIN_VALUE : Double.MAX_VALUE;
-		double maxMin = type.equals("max") ? Double.MAX_VALUE : Double.MIN_VALUE;;
+		double maxMin = type.equals("max") ? Double.MAX_VALUE : - Double.MAX_VALUE;
 		
 		for(Chromosome chromosome: population) {			
 			if(type.equals("max") ? chromosome.test() < maxMin : chromosome.test() > maxMin) {
@@ -96,7 +96,10 @@ public class Population {
 		aggregateAptitude = 0;
 		
 		for(Chromosome chromosome: population) {
-			chromosome.setAptitude(chromosome.test() + Math.abs(maxMin) + 1.0);
+			if (type.equals("max"))
+				chromosome.setAptitude(chromosome.test() + Math.abs(maxMin) + 1.0);
+			else
+				chromosome.setAptitude((Math.abs(maxMin) + 1.0) - chromosome.test());
 			if(type.equals("max") ? chromosome.test() > bestAptitude : chromosome.test() < bestAptitude) {
 				bestAptitude = chromosome.test();
 			}
@@ -136,7 +139,7 @@ public class Population {
 		
 		if(selectedNum % 2 == 1) selectedNum --;
 		
-		int crossPoint = new Random().nextInt((population[0].getLength() - 0) + 1) + 0;
+		int crossPoint = new Random().nextInt((population[0].getLength()[0] - 0) + 1) + 0;
 		Chromosome child1, child2;
 		Chromosome parent1, parent2;
 		
@@ -165,16 +168,17 @@ public class Population {
 		child1.init();
 		child2.init();
 		
-		for(int i = 0; i < crossPoint; i++) {
-			child1.setGen(parent1.getGens()[i], i);
-			child2.setGen(parent2.getGens()[i], i);
+		for (int j = 0; j < parent1.getLength().length; j++){
+			for(int i = 0; i < crossPoint; i++) {
+				child1.setGen(j, i, parent1.getGens()[j][i]);
+				child2.setGen(j, i, parent2.getGens()[j][i]);
+			}
+			
+			for(int i = crossPoint; i < parent1.getLength()[j]; i++) {
+				child1.setGen(j, i, parent2.getGens()[j][i]);
+				child2.setGen(j, i, parent1.getGens()[j][i]);
+			}
 		}
-		
-		for(int i = crossPoint; i < parent1.getLength(); i++) {
-			child1.setGen(parent2.getGens()[i], i);
-			child2.setGen(parent1.getGens()[i], i);
-		}
-		
 		child1.setAptitude(child1.test());
 		child2.setAptitude(child2.test());
 	}

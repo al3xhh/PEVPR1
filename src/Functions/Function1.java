@@ -1,7 +1,6 @@
 package Functions;
 
 import Models.Chromosome;
-import Models.Gen;
 import Models.Utils;
 
 public class Function1 extends Chromosome {
@@ -14,20 +13,18 @@ public class Function1 extends Chromosome {
 		this.minX = minX;
 		this.maxX = maxX;
 		this.precision = precision;
+		this.length = new int[1];
+		length[0] = this.calculateLength(minX, maxX, precision);
+		this.gens = new boolean[1][length[0]];
 	}
 	
 	@Override
 	public void init() {
-		int length = this.calculateLength(minX, maxX, precision);
-		Gen gens [] = new Gen[length];
-		
-		for(int i = 0; i < length; i ++) {
-			Gen gen = new Gen(1);
-			gen.init();
-			gens[i] = gen;
+
+		for(int i = 0; i < length[0]; i ++) {
+			this.gens[0][i] = Math.random() < 0.5 ? false : true;
 		}
-		
-		this.setGens(gens);	
+			
 	}
 
 	@Override
@@ -39,7 +36,7 @@ public class Function1 extends Chromosome {
 
 	@Override
 	public double getPhenotype(int index) {
-		return (minX + (maxX - minX) * (Utils.bin2dec(this.getAlleles(index))) / (Math.pow(2, this.getLength()) - 1));
+		return (minX + (maxX - minX) * (Utils.bin2dec(this.getAlleles(index))) / (Math.pow(2, this.getLength()[0]) - 1));
 	}
 
 	@Override
