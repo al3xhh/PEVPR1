@@ -1,5 +1,8 @@
 package Models;
 
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -23,7 +26,7 @@ public class Population {
 	/**
 	 * 
 	 */
-	private Chromosome[] _bestChromosomes;
+	private ArrayList<Chromosome> _bestChromosomes;
 	
 	/**
 	 * 
@@ -66,11 +69,11 @@ public class Population {
 	public Population(int popultionSize, int generations, double elitism, Chromosome[] population, String type) {
 		_popultionSize = popultionSize;
 		_population = population;
-		_bestChromosomes = new Chromosome[(int) (popultionSize * elitism / 100)];
+		_elitismCount = new Double(elitism * popultionSize).intValue();
+		_bestChromosomes = new ArrayList<>();
 		_bests = new double[generations];
 		_bestOfGeneration = new double[generations];;
 		_mean = new double[generations];
-		_elitismCount = 0;
 		_generation = 0;
 		_bestChromosome = population[0].clone();
 		_type = type;
@@ -115,6 +118,14 @@ public class Population {
 	public Chromosome getBestChromosome() {
 		return _bestChromosome;
 	}
+	
+	public ArrayList<Chromosome> getBestChromosomes() {
+		return _bestChromosomes;
+	}
+	
+	public int getElitismCount() {
+		return _elitismCount;
+	}
 
 	/**
 	 * 
@@ -142,6 +153,7 @@ public class Population {
 				chromosome.setAptitude((Math.abs(maxMin) + 1.0) - chromosome.test());
 			if(_type.equals("max") ? chromosome.test() > bestAptitude : chromosome.test() < bestAptitude)
 				bestAptitude = chromosome.test();
+			
 			if(_type.equals("max") ? chromosome.test() > _bestChromosome.getAptitude() : chromosome.test() < _bestChromosome.getAptitude())
 				_bestChromosome = chromosome.clone();
 
@@ -157,6 +169,23 @@ public class Population {
 		_bests[_generation] = _generation == 0 ? bestAptitude : _type.equals("max") ? Math.max(_bests[_generation - 1], bestAptitude) 
 				: Math.min(_bests[_generation - 1], bestAptitude);
 		_bestOfGeneration[_generation++] = bestAptitude;
+	}
+	
+	public void setAptitude() {
+		double maxMin = _type.equals("max") ? Double.MAX_VALUE : - Double.MAX_VALUE;
+		
+		for(Chromosome chromosome: _population) {			
+			if(_type.equals("max") ? chromosome.test() < maxMin : chromosome.test() > maxMin)
+				maxMin = chromosome.test();
+		}
+		
+		
+		for(Chromosome chromosome: _population) {
+			if (_type.equals("max"))
+				chromosome.setAptitude(chromosome.test() + Math.abs(maxMin) + 1.0);
+			else
+				chromosome.setAptitude((Math.abs(maxMin) + 1.0) - chromosome.test());
+		}
 	}
 	
 	public void mutation(double mutation) {
@@ -199,6 +228,61 @@ public class Population {
 		}
 	}
 	
+	public void replaceElite() {
+		double aptitude;
+		ArrayList<Integer> worstChromosomes = new ArrayList<>();
+		int best;
+		
+		for(int i = 0; i < _popultionSize; i++) {
+			aptitude = -Double.MAX_VALUE;
+			best = 0;
+			
+			if(worstChromosomes.size() == _elitismCount) {
+				for(int c: worstChromosomes) {
+					if(_population[c].getAptitude() > aptitude) {
+						aptitude = _population[c].getAptitude();
+						best = c;
+					}
+				}
+				if(_population[i].getAptitude() < _population[best].getAptitude()) {
+					worstChromosomes.remove(worstChromosomes.indexOf(best));
+					worstChromosomes.add(i);
+				}
+			} else {
+				worstChromosomes.add(i);
+			}
+		}
+		
+		for(int i = 0; i < _elitismCount; i++)
+			_population[worstChromosomes.get(i)] = _bestChromosomes.get(i);
+	}
+	
+	public void findElite() {
+		double aptitude;
+		Chromosome worst;
+		
+		for(Chromosome chromosome: _population) {
+			aptitude = Double.MAX_VALUE;
+			worst = null;
+			
+			if(_bestChromosomes.size() == _elitismCount) {
+				for(Chromosome c: _bestChromosomes) {
+					if(c.getAptitude() < aptitude) {
+						aptitude = c.getAptitude();
+						worst = c;
+					}
+				}
+				
+				if(chromosome.getAptitude() > worst.getAptitude()) {
+					_bestChromosomes.remove(_bestChromosomes.indexOf(worst));
+					_bestChromosomes.add(chromosome.clone());
+				}
+			} else {
+				_bestChromosomes.add(chromosome.clone());
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param parent1
@@ -224,5 +308,9 @@ public class Population {
 		}
 		child1.setAptitude(child1.test());
 		child2.setAptitude(child2.test());
+	}
+
+	public void resetBest() {
+		_bestChromosomes = new ArrayList<>();
 	}
 }

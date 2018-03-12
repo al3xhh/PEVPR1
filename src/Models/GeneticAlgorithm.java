@@ -48,12 +48,21 @@ public class GeneticAlgorithm {
 		_population.test();
 		
 		for(int i = 0; i < _generationNumber - 1; i++) {
+			if(_population.getElitismCount() > 0)
+				_population.findElite();
+			
 			_selectionAlgorithm.selection(_population);
 			_population.reproduction(_cross);
 			_population.mutation(_mutation);
+			_population.setAptitude();
+			
+			if(_population.getElitismCount() > 0)
+				_population.replaceElite();
+			
 			_population.test();
 		}
 		
+		_population.resetBest();
 		_observer.updatePlot(_population.getMean(), _population.getBestOfGeneration(), _population.getBests(), 
 				_generationNumber, _population.getBestChromosome());
 	}

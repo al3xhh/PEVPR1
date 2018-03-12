@@ -59,7 +59,7 @@ public class Function1 extends Chromosome {
 	public Chromosome clone() {
 		Function1 ret = new Function1(_minX, _maxX, _precision);
 		
-		ret.setGens(_gens);
+		ret.setGens(cloneGens());
 		ret.setAptitude(_aptitude);
 		ret.setScore(_score);
 		ret.setAggregateSocore(_aggregateSocore);
@@ -71,5 +71,15 @@ public class Function1 extends Chromosome {
 	@Override
 	public String getPoint() {
 		return "x = " + getPhenotype(0);
+	}
+
+	@Override
+	public boolean[][] cloneGens() {
+		boolean[][]ret = new boolean[1][calculateLength(_minX, _maxX, _precision)];
+		
+		for(int i = 0; i < _gens[0].length; i++)
+			ret[0][i] = _gens[0][i];
+		
+		return ret;
 	}
 }

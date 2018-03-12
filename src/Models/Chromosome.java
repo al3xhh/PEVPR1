@@ -76,7 +76,13 @@ public abstract class Chromosome {
 		}
 	}
 	
+	
 	//ABSTRACT FUNCTIONS//
+	
+	/**
+	 * 
+	 */
+	abstract public boolean[][] cloneGens();
 	
 	/**
 	 * Test the chromosome to calculate the aptitude.
