@@ -8,7 +8,7 @@ import Models.Population;
  * @author al3x_hh
  *
  */
-public class Roulette extends SelectionAlgorithm {
+public class Roulette implements SelectionAlgorithm {
 
 	@Override
 	public void selection(Population population) {

@@ -1,5 +1,6 @@
 package Models;
 
+import Crossover.CrossoverAlgorithm;
 import Selection.SelectionAlgorithm;
 import Views.Observer;
 
@@ -27,6 +28,11 @@ public class GeneticAlgorithm {
 	private SelectionAlgorithm _selectionAlgorithm;
 	
 	/**
+	 * Crossover algorithm type.
+	 */
+	private CrossoverAlgorithm _crossoverAlgorithm;
+	
+	/**
 	 * Main view's observer.
 	 */
 	private Observer _observer;
@@ -52,7 +58,7 @@ public class GeneticAlgorithm {
 				_population.findElite();
 			
 			_selectionAlgorithm.selection(_population);
-			_population.reproduction(_cross);
+			_crossoverAlgorithm.crossover(_population, _cross);
 			_population.mutation(_mutation);
 			_population.setAptitude();
 			
@@ -83,6 +89,10 @@ public class GeneticAlgorithm {
 
 	public void setSelectionAlgorithm(SelectionAlgorithm selectionAlgorithm) {
 		_selectionAlgorithm = selectionAlgorithm;
+	}
+	
+	public void setCrossOverAlgorithm(CrossoverAlgorithm crossoverAlgorithm) {
+		_crossoverAlgorithm = crossoverAlgorithm;
 	}
 
 	public void setCross(double cross) {

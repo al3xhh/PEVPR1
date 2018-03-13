@@ -5,7 +5,7 @@ import java.util.Random;
 import Models.Chromosome;
 import Models.Population;
 
-public class UniversalStochastic extends SelectionAlgorithm {
+public class UniversalStochastic implements SelectionAlgorithm {
 
 	@Override
 	public void selection(Population population) {

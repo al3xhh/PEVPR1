@@ -7,11 +7,11 @@ import Models.Population;
  * @author al3x_hh
  *
  */
-public abstract class SelectionAlgorithm {
+public interface SelectionAlgorithm {
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract void selection(Population population);
+	public void selection(Population population);
 }

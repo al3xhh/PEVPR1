@@ -5,7 +5,7 @@ import java.util.Random;
 import Models.Chromosome;
 import Models.Population;
 
-public class Tournament extends SelectionAlgorithm {
+public class Tournament implements SelectionAlgorithm {
 
 	@Override
 	public void selection(Population population) {

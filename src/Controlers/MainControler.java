@@ -1,5 +1,7 @@
 package Controlers;
 
+import Crossover.CrossOverFactory;
+import Crossover.CrossoverAlgorithm;
 import Functions.Function1;
 import Functions.Function2;
 import Functions.Function3;
@@ -60,10 +62,11 @@ public class MainControler {
 	 */
 	public void run(int populationSize, int generationNumber, 
 					String selection, double cross, double mutation, 
-					String function, double elitism, double precision, int n, double truncation) {
+					String function, double elitism, double precision, int n, double truncation, String crossOver) {
 		
 		Population population = null;
 		SelectionAlgorithm selectionAlgorithm = SelectionFactory.getSelectionAlgorithm(selection, truncation);
+		CrossoverAlgorithm crossoverAlgorithm = CrossOverFactory.getCrossoverAlgorithm(crossOver);
 		
 		if(function.equals("1")) {
 			Chromosome chromosomes[] = new Function1[populationSize];
@@ -106,6 +109,7 @@ public class MainControler {
 		_ga.setGenerationNumber(generationNumber);
 		_ga.setPopulation(population);
 		_ga.setSelectionAlgorithm(selectionAlgorithm);
+		_ga.setCrossOverAlgorithm(crossoverAlgorithm);
 		_ga.setCross(cross);
 		_ga.setMutation(mutation);
 		_ga.run();

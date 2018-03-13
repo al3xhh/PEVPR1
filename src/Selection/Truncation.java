@@ -3,7 +3,7 @@ package Selection;
 import Models.Chromosome;
 import Models.Population;
 
-public class Truncation extends SelectionAlgorithm {
+public class Truncation implements SelectionAlgorithm {
 	
 	private double _truncation;
 	
