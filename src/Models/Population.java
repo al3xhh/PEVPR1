@@ -283,6 +283,46 @@ public class Population {
 		}
 	}
 	
+	public void sort() {   
+        quickSort(0, _popultionSize - 1);
+    }
+	
+	private void quickSort(int lowerIndex, int higherIndex) {
+        
+        int i = lowerIndex;
+        int j = higherIndex;
+        Chromosome pivot = _population[lowerIndex + (higherIndex - lowerIndex) / 2];
+        
+        // Divide into two arrays
+        while (i <= j) {
+            while (_population[i].getAptitude() < pivot.getAptitude()) {
+                i++;
+            }
+            
+            while (_population[j].getAptitude() > pivot.getAptitude()) {
+                j--;
+            }
+            
+            if (i <= j) {
+                exchangeNumbers(i, j);
+                i++;
+                j--;
+            }
+        }
+        
+        if (lowerIndex < j)
+            quickSort(lowerIndex, j);
+        if (i < higherIndex)
+            quickSort(i, higherIndex);
+    }
+ 
+    private void exchangeNumbers(int i, int j) {
+        Chromosome temp = _population[i];
+        
+        _population[i] = _population[j];
+        _population[j] = temp;
+    }
+	
 	/**
 	 * 
 	 * @param parent1

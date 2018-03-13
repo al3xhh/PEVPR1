@@ -56,13 +56,14 @@ public class MainControler {
 	 * @param elitism elitism %:
 	 * @param precision precision %.
 	 * @param n iterations number for problem 5.
+	 * @param truncation percentage of truncation selection.
 	 */
 	public void run(int populationSize, int generationNumber, 
 					String selection, double cross, double mutation, 
-					String function, double elitism, double precision, int n) {
+					String function, double elitism, double precision, int n, double truncation) {
 		
 		Population population = null;
-		SelectionAlgorithm selectionAlgorithm = SelectionFactory.getSelectionAlgorithm(selection, 0);
+		SelectionAlgorithm selectionAlgorithm = SelectionFactory.getSelectionAlgorithm(selection, truncation);
 		
 		if(function.equals("1")) {
 			Chromosome chromosomes[] = new Function1[populationSize];

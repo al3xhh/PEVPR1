@@ -52,9 +52,11 @@ public class MainView extends javax.swing.JFrame implements Observer {
         jLabel1 = new javax.swing.JLabel();
         populationSizeTF = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         generationNumberTF = new javax.swing.JTextField();
         nTF = new javax.swing.JTextField();
+        truncTF = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         selectionModeCB = new javax.swing.JComboBox<>();
         jPanel1 = new javax.swing.JPanel();
@@ -93,13 +95,17 @@ public class MainView extends javax.swing.JFrame implements Observer {
         chartP.addLegend("SOUTH");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setSize(new java.awt.Dimension(1200, 800));
+        setPreferredSize(new java.awt.Dimension(1200, 610));
 
         jLabel1.setText("Population size:");
         
         jLabel11.setText("N: ");
         jLabel11.setVisible(false);
         nTF.setVisible(false);
+        
+        jLabel12.setText("Trunc: ");
+        jLabel12.setVisible(false);
+        truncTF.setVisible(false);
 
         jLabel2.setText("Generation number:");
 
@@ -238,7 +244,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
 											Double.parseDouble(eliteTF.getText()),
 											Double.parseDouble(precisionTF.getText()),
 											problemSelectionCB.getSelectedItem().toString().equals("5") ?
-													Integer.parseInt(nTF.getText().toString()) : 0);
+													Integer.parseInt(nTF.getText().toString()) : 0,
+											selectionModeCB.getSelectedItem().toString().equals("Truncation") ?
+													Double.parseDouble(truncTF.getText().toString()) : 0.0);
 							} catch(NumberFormatException e1) {
 								JOptionPane.showMessageDialog(null, "Munber format exception", "Error", JOptionPane.ERROR_MESSAGE);
 							}
@@ -261,7 +269,20 @@ public class MainView extends javax.swing.JFrame implements Observer {
 					jLabel11.setVisible(false);
 					nTF.setVisible(false);
 				}
-				
+			}
+		});
+        
+        selectionModeCB.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(selectionModeCB.getSelectedItem().toString().equals("Truncation")) {
+					jLabel12.setVisible(true);
+					truncTF.setVisible(true);
+				} else {
+					jLabel12.setVisible(false);
+					truncTF.setVisible(false);
+				}
 			}
 		});
 
@@ -326,6 +347,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
                             .addComponent(jLabel3)
                             .addComponent(jLabel1)
                             .addComponent(jLabel11)
+                            .addComponent(jLabel12)
                             .addComponent(jLabel9))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -334,6 +356,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
                             .addComponent(populationSizeTF)
                             .addComponent(selectionModeCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(nTF)
+                            .addComponent(truncTF)
                             .addComponent(problemSelectionCB, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -364,6 +387,9 @@ public class MainView extends javax.swing.JFrame implements Observer {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel11)
                                 .addComponent(nTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel12)
+                                .addComponent(truncTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -431,6 +457,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private javax.swing.JComboBox<String> problemSelectionCB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -450,6 +477,7 @@ public class MainView extends javax.swing.JFrame implements Observer {
     private javax.swing.JTextField populationSizeTF;
     private javax.swing.JTextField generationNumberTF;
     private javax.swing.JTextField nTF;
+    private javax.swing.JTextField truncTF;
     private javax.swing.JTextField crossoverTF;
     private javax.swing.JTextField mutationTF;
     private javax.swing.JTextField eliteTF;
