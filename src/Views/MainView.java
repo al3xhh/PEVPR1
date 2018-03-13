@@ -80,6 +80,14 @@ public class MainView extends javax.swing.JFrame implements Observer {
         precisionTF = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         resultsTA = new javax.swing.JTextArea();
+        
+        //DEFAULTS VALUES
+        populationSizeTF.setText("100");
+        generationNumberTF.setText("100");
+        crossoverTF.setText("0.6");
+        mutationTF.setText("0.05");
+        eliteTF.setText("0.1");
+        precisionTF.setText("0.001");
 
         // define the legend position
         chartP.addLegend("SOUTH");
